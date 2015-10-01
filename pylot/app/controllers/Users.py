@@ -17,11 +17,48 @@ class Users(Controller):
 
             self.load_model('WelcomeModel')
         """
+        self.load_model('User')
 
     """ This is an example of a controller method that will load a view for the client """
-    def index(self):
+    def create(self):
         """ 
         A loaded model is accessible through the models attribute 
         self.models['WelcomeModel'].get_all_users()
         """
-        return self.load_view('index.html')
+        item = {
+            'first_name' : request.form['first_name'],
+            'last_name':request.form['last_name'],
+            'email':request.form['email'],
+            'username':request.form['username']
+            'password':request.form['password']
+        }
+        created_status = self.models['User'].create_user(reg_info)
+
+        if created_status['status'] == True:
+            session['id'] = created_status['user']['id']
+            session['name'] = created_status['user']['name']
+            return redirect("/Requests/home/{}".format(int(session['id'])))
+        else:
+            for message in created_status['errors']:
+                flash (message, 'regis_errors')
+        return redirect('/Requests/home')
+
+    def login(self):
+        log_info ={
+            'email':request.form['email'],
+            'password':request.form['password']
+        }
+        login_attemp = self.models['User'].login(log_info)
+        if login_attemp['status'] == True:
+            session['id'] = login_attemp['user']['id']
+            return redirect ("/Users/home/{}".format(login_attemp['user']['id']))
+        else:
+            flash(login_attemp['message'])
+        return redirect('/')
+
+
+    def logout(self):
+        session.pop('id')
+        return redirect('/')
+
+
