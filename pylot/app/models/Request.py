@@ -16,13 +16,19 @@ class Request(Model):
         super(Request, self).__init__()
 
     def create_request(self, info):
-    	query ="INSERT INTO `givr`.`requests` (`name`, `description`, `location`, `lat`, `long`, `image_address`, `created_at`, `updated_at`, `user_id`, `accept_status`) VALUES ('{}', '{}', '{}', '{}', '{}', '{}', NOW(), NOW(),'{}', '{}');".format(info['helpee'], info['description'],info['intersection'], info['latt'],info['long'],"info["photo"]", info['user_id'], "Waiting")
-    	print query
-    	# return self.db.query_db(query)
-    	return 
+        query ="INSERT INTO requests (name, description, location, lat, long, image_address,\
+            created_at, updated_at, user_id, accept_status) VALUES ('{}', '{}', '{}', '{}', '{}', '{}', NOW(), NOW(),'{}', '{}');"\
+            .format(info['helpee'], info['description'],info['intersection'], info['latt'],info['long'],info["photo"], info['user_id'], "Waiting")
+        print query
+        # return self.db.query_db(query)
+        return 
 
     def select_all_request(self):
-    	return 
+        return 
+
+    def get_requests(self):
+        query = "SELECT name, description, location, created_at FROM requests"
+        return self.db.query_db(query)
 
 
 

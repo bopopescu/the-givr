@@ -53,6 +53,10 @@ class Requests(Controller):
         self.models['Request'].create_request(item)
         return redirect ('/')
 
+    def get_requests(self): #login/reg redirected to get requests
+        requests = self.models['Request'].get_requests()
+        return self.load_view('home.html', requests=requests)
+
         # return redirect('Users/home/{}'.format(session['id']))
 
     # def remove(self, friendship_id):

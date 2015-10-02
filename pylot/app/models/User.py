@@ -56,7 +56,7 @@ class User(Model):
     def user_info_by_id(self, user_id):
         query = "select * from users where id ={}".format(user_id)
         user_info = self.db.query_db(query)
-        return user_info[0]
+        return user_info #changed this from user_info[0] because error out of range
 
     def show_all_users(self):
         query= "select * from users"
